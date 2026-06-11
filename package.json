@@ -1,0 +1,20 @@
+{
+  "name": "law-firm-case-management",
+  "version": "1.0.0",
+  "description": "律师事务所案件管理系统",
+  "main": "server/index.js",
+  "scripts": {
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "install:all": "npm install && npm run install:server && npm run install:client",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": ["law-firm", "case-management", "react", "nodejs"],
+  "author": "Law Firm CMS",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
