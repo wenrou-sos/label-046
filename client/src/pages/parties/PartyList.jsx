@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Table, Button, Space, Input, Select, Modal, Form, DatePicker,
-  App, Tag, Tooltip, Popconfirm, Row, Col, Drawer, Avatar, Descriptions
+  App, Tag, Tooltip, Popconfirm, Row, Col, Drawer, Avatar, Descriptions,
+  Typography, List, Divider, Empty
 } from 'antd';
 import {
   PlusOutlined, SearchOutlined, ReloadOutlined, EditOutlined, DeleteOutlined,
@@ -15,6 +16,8 @@ import {
   PARTY_TYPE_OPTIONS, GENDER_OPTIONS, getOptionLabel, getOptionColor
 } from '../../utils/constants';
 import { formatDate, formatDateTime } from '../../utils/helpers';
+
+const { TextArea } = Input;
 
 function PartyList() {
   const navigate = useNavigate();
@@ -381,7 +384,5 @@ function PartyList() {
     </div>
   );
 }
-
-const { TextArea, List, Divider, Empty } = require('antd');
 
 export default PartyList;

@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const { Op } = require('sequelize');
 const {
-  Milestone, Case, User, ReminderRule, Notification, CaseParty
+  Milestone, Case, User, ReminderRule, Notification
 } = require('../models');
 const { getToday, addDays, getDaysDiff } = require('../utils/helpers');
 
@@ -22,7 +22,7 @@ async function checkDeadlinesAndNotify() {
         deadline_date: { [Op.not]: null }
       },
       include: [
-        { model: Case, as: 'case_info', where: { is_deleted: 0 }
+        { model: Case, as: 'case_info', where: { is_deleted: 0 }, required: true }
       ]
     });
 
@@ -101,15 +101,13 @@ async function sendReminderNotifications(milestone, rule, daysUntilDeadline) {
     ? `【已超期】案件「${caseData.case_name}」节点「${milestone.name}」已超期${Math.abs(daysUntilDeadline)}天`
     : `【临期提醒】案件「${caseData.case_name}」节点「${milestone.name}」还有${daysUntilDeadline}天到期`;
 
-  const content = `
-案件编号：${caseData.case_number}
+  const content = `案件编号：${caseData.case_number}
 案件名称：${caseData.case_name}
 节点名称：${milestone.name}
 ${milestone.description ? `节点描述：${milestone.description}` : ''}
 截止日期：${milestone.deadline_date}
 ${isOverdue ? `超期天数：${Math.abs(daysUntilDeadline)}天` : `剩余天数：${daysUntilDeadline}天`}
-${milestone.assignee_id ? `负责人ID：${milestone.assignee_id}` : ''}
-  `.trim();
+${milestone.assignee_id ? `负责人ID：${milestone.assignee_id}` : ''}`.trim();
 
   for (const userId of usersToNotify) {
     for (const method of notifyMethods) {
@@ -154,8 +152,8 @@ async function sendEmailNotification(userId, title, content) {
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    secure: process.env.SMTP_PORT == 465,
+    port: parseInt(process.env.SMTP_PORT) || 587,
+    secure: process.env.SMTP_PORT === '465',
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS

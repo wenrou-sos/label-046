@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Card, Table, Button, Space, Input, Select, DatePicker, Tag, App,
   Row, Col, Tooltip, Avatar, Empty, Modal, Upload, Progress, Spin,
-  Descriptions, Drawer, Popconfirm
+  Descriptions, Drawer, Popconfirm, Statistic
 } from 'antd';
 import {
   SearchOutlined, ReloadOutlined, PlusOutlined, EyeOutlined,
@@ -295,7 +295,7 @@ function DocumentList() {
       </Row>
 
       <Card size="small" style={{ marginBottom: 16 }}>
-        <Row gutter={[16, 16} align="middle">
+        <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={12} md={8}>
             <Select
               placeholder="所属案件"
@@ -542,7 +542,5 @@ function DocumentList() {
     </div>
   );
 }
-
-const { Statistic } = require('antd');
 
 export default DocumentList;

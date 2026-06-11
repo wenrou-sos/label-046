@@ -112,14 +112,14 @@ function Dashboard() {
     {
       title: '节点名称',
       dataIndex: 'name',
-      render: (_, record => (
+      render: (_, record) => (
         <Space>
           <ClockCircleOutlined style={{ color: record.status === 'delayed' ? '#ff4d4f' : '#1890ff' }} />
           <Text strong>{record.name}</Text>
         </Space>
-      ))
+      )
     },
-    { title: '关联案件', dataIndex: ['case_info', 'case_name', render: v => v || '-' },
+    { title: '关联案件', dataIndex: ['case_info', 'case_name'], render: v => v || '-' },
     {
       title: '截止日期',
       dataIndex: 'deadline_date',
@@ -227,7 +227,7 @@ function Dashboard() {
         <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
           <Col xs={24} lg={12}>
             <Card title="案件状态分布" className="card-shadow" extra={<Button type="link" onClick={() => navigate('/cases')}>查看全部 <RightOutlined /></Button>}>
-              {(data.casesByStatus && data.casesByStatus.length > 0 ? (
+              {data.casesByStatus && data.casesByStatus.length > 0 ? (
                 <ReactECharts option={statusChartOption} style={{ height: 260 }} />
               ) : (
                 <Empty description="暂无数据" style={{ padding: '40px 0' }} />
@@ -236,7 +236,7 @@ function Dashboard() {
           </Col>
           <Col xs={24} lg={12}>
             <Card title="案件类型分布" className="card-shadow">
-              {(data.casesByType && data.casesByType.length > 0 ? (
+              {data.casesByType && data.casesByType.length > 0 ? (
                 <ReactECharts option={typeChartOption} style={{ height: 260 }} />
               ) : (
                 <Empty description="暂无数据" style={{ padding: '40px 0' }} />
@@ -335,7 +335,7 @@ function Dashboard() {
                       ]}
                     >
                       <List.Item.Meta
-                        avatar={<Avatar icon={<FilePdfOutlined style={{ color: '#1890ff' }} />}
+                        avatar={<Avatar icon={<FilePdfOutlined style={{ color: '#1890ff' }} />} />}
                         title={
                           <Text ellipsis style={{ maxWidth: 260 }}>
                             <a onClick={() => navigate(`/cases/${item.case_id}`)}>{item.file_name}</a>
@@ -378,7 +378,7 @@ function Dashboard() {
                   renderItem={item => (
                     <List.Item style={{ opacity: item.is_read ? 0.6 : 1 }}>
                       <List.Item.Meta
-                        avatar={<Avatar style={{ backgroundColor: item.is_read ? '#ccc : '#1890ff' }} icon={<BellOutlined />} />
+                        avatar={<Avatar style={{ backgroundColor: item.is_read ? '#ccc' : '#1890ff' }} icon={<BellOutlined />} />}
                         title={<Text strong={!item.is_read}>{item.title}</Text>}
                         description={
                           <Space direction="vertical" size={4} style={{ display: 'flex' }}>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Card, Table, Button, Space, Input, Select, DatePicker, Tag, Popconfirm, App,
-  Row, Col, Tooltip, Avatar
+  Row, Col, Tooltip, Avatar, Typography
 } from 'antd';
 import {
   PlusOutlined, SearchOutlined, ReloadOutlined, EditOutlined, DeleteOutlined,
@@ -9,14 +9,15 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { caseAPI, userAPI } from '../api';
+import { caseAPI, userAPI } from '../../api';
 import {
   CASE_TYPE_OPTIONS, CASE_STATUS_OPTIONS, FEE_STATUS_OPTIONS,
   getOptionLabel, getOptionColor
-} from '../utils/constants';
-import { formatDate, formatCurrency } from '../utils/helpers';
+} from '../../utils/constants';
+import { formatDate, formatCurrency } from '../../utils/helpers';
 
 const { RangePicker } = DatePicker;
+const { Text } = Typography;
 
 function CaseList() {
   const navigate = useNavigate();
@@ -194,7 +195,7 @@ function CaseList() {
 
   const filterContent = (
     <Card size="small" style={{ marginBottom: 16 }}>
-      <Row gutter={[16, 16} align="middle">
+      <Row gutter={[16, 16]} align="middle">
         <Col xs={24} sm={12} md={8} lg={6}>
           <Select
             placeholder="案件类型"
@@ -296,7 +297,5 @@ function CaseList() {
     </div>
   );
 }
-
-const { Text } = require('antd');
 
 export default CaseList;

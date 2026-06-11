@@ -11,11 +11,11 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { notificationAPI } from '../api';
+import { notificationAPI } from '../../api';
 import {
   NOTIFICATION_TYPE_OPTIONS, getOptionLabel, getOptionColor
-} from '../utils/constants';
-import { formatDateTime, formatRelativeTime } from '../utils/helpers';
+} from '../../utils/constants';
+import { formatDateTime, formatRelativeTime } from '../../utils/helpers';
 import { useAppStore } from '../../store';
 
 const { Title, Text } = Typography;

@@ -28,7 +28,7 @@ router.get('/all', async (req, res, next) => {
   try {
     const rules = await ReminderRule.findAll({
       where: { is_enabled: 1 },
-      order: [['priority', 'DESC'], ['warning_days', 'DESC']
+      order: [['priority', 'DESC'], ['warning_days', 'DESC']]
     });
     successResponse(res, rules);
   } catch (error) {

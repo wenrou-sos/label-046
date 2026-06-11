@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Form, Input, Select, DatePicker, InputNumber, Button, Space, Steps, Row, Col,
-  App, Divider, Tabs, Transfer, Alert, Checkbox, Switch
+  App, Divider, Tabs, Transfer, Alert, Checkbox, Switch, Typography
 } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined, SaveOutlined, SendOutlined, FileTextOutlined, PlusOutlined } from '@ant-design/icons';
@@ -15,6 +15,7 @@ import { generateCaseNumber } from '../../utils/helpers';
 
 const { TextArea } = Input;
 const { Option } = Select;
+const { Tag, Text } = Typography;
 
 function CaseCreate() {
   const { id } = useParams();
@@ -558,7 +559,5 @@ function CaseCreate() {
     </div>
   );
 }
-
-const { Tag, Text } = require('antd');
 
 export default CaseCreate;

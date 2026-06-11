@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
     if (case_type) {
       where[Op.or] = [
         { case_type },
-        { case_type: null }
+        { case_type: { [Op.is]: null } }
       ];
     }
     const templates = await MilestoneTemplate.findAll({

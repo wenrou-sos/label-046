@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Descriptions, Tag, Avatar, Button, Space, Row, Col, Empty, Spin,
-  Tabs, List, Table, Modal, App, Tooltip, Popconfirm, Divider, Upload, Input, Select, Timeline, Progress
+  Tabs, List, Table, Modal, App, Tooltip, Popconfirm, Divider, Upload, Input, Select, Timeline, Progress,
+  DatePicker, Typography
 } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -30,6 +31,7 @@ import MilestoneTimeline from '../milestones/MilestoneTimeline';
 
 const { Option } = Select;
 const { TextArea } = Input;
+const { Text } = Typography;
 
 function CaseDetail() {
   const { id } = useParams();
@@ -728,7 +730,5 @@ function CaseDetail() {
     </div>
   );
 }
-
-const { DatePicker, Text, Progress } = require('antd');
 
 export default CaseDetail;

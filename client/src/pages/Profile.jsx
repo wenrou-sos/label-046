@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Card, Form, Input, Button, Avatar, Upload, App, Space, Row, Col,
-  Descriptions, Tag, Divider, Typography, Modal
+  Descriptions, Tag, Divider, Typography, Modal, List
 } from 'antd';
 import {
   UserOutlined, EditOutlined, SaveOutlined, SafetyOutlined,
@@ -332,7 +332,5 @@ function ProfilePage() {
     </div>
   );
 }
-
-const { List } = require('antd');
 
 export default ProfilePage;

@@ -87,7 +87,8 @@ router.get('/stats/overview', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const caseItem = await Case.findByPk(req.params.id, {
+    const caseItem = await Case.findOne({
+      where: { id: req.params.id, is_deleted: 0 },
       include: [
         { model: User, as: 'lead_lawyer', attributes: ['id', 'real_name', 'phone', 'email'] },
         { model: User, as: 'creator', attributes: ['id', 'real_name'] },
@@ -103,11 +104,13 @@ router.get('/:id', async (req, res, next) => {
         },
         {
           model: Milestone, as: 'milestones',
-          order: [['planned_date', 'ASC'], ['created_at', 'ASC']],
           include: [{ model: User, as: 'assignee', attributes: ['id', 'real_name'] }]
         }
       ],
-      where: { is_deleted: 0 }
+      order: [
+        [{ model: Milestone, as: 'milestones' }, 'planned_date', 'ASC'],
+        [{ model: Milestone, as: 'milestones' }, 'created_at', 'ASC']
+      ]
     });
 
     if (!caseItem) throw new AppError('案件不存在', 404);

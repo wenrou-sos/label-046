@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const { Notification, Case, Milestone } = require('../models');
 const { successResponse, paginatedResponse, AppError } = require('../utils/response');
 
@@ -14,14 +14,6 @@ router.get('/', async (req, res, next) => {
 
     const result = await Notification.findAndCountAll({
       where,
-      include: [
-        {
-          model: Case, as: 'case_info', required: false,
-          foreignKey: 'related_id',
-          scope: { related_type: 'case' },
-          attributes: ['id', 'case_number', 'case_name']
-        }
-      ],
       order: [['created_at', 'DESC']],
       limit: parseInt(pageSize),
       offset: (page - 1) * pageSize
@@ -41,7 +33,7 @@ router.get('/unread-count', async (req, res, next) => {
 
     const byType = await Notification.findAll({
       where: { user_id: req.userId, is_read: 0 },
-      attributes: ['type', [require('sequelize').fn('COUNT', require('sequelize').col('id')), 'count']],
+      attributes: ['type', [Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
       group: ['type']
     });
 

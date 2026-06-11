@@ -119,11 +119,11 @@ router.get('/cases-trend', async (req, res, next) => {
         created_at: { [Op.gte]: startDate }
       },
       attributes: [
-        [Sequelize.fn('DATE', Sequelize.col('created_at')), 'date'],
+        [Sequelize.fn('DATE_FORMAT', Sequelize.col('created_at'), '%Y-%m-%d'), 'date'],
         [Sequelize.fn('COUNT', Sequelize.col('id')), 'count']
       ],
-      group: [Sequelize.fn('DATE', Sequelize.col('created_at'))],
-      order: [[Sequelize.fn('DATE', Sequelize.col('created_at')), 'ASC']]
+      group: [Sequelize.fn('DATE_FORMAT', Sequelize.col('created_at'), '%Y-%m-%d')],
+      order: [[Sequelize.fn('DATE_FORMAT', Sequelize.col('created_at'), '%Y-%m-%d'), 'ASC']]
     });
 
     successResponse(res, trend);

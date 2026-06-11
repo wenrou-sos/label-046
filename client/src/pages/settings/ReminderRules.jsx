@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Card, Table, Button, Space, Input, Modal, Form, Select, Switch, NumberPicker,
-  App, Tag, Tooltip, Popconfirm, Row, Col, Checkbox, Slider, Empty, Spin, Alert
+  Card, Table, Button, Space, Input, Modal, Form, Select, Switch, InputNumber,
+  App, Tag, Tooltip, Popconfirm, Row, Col, Checkbox, Slider, Empty, Spin, Alert,
+  Typography
 } from 'antd';
 import {
   PlusOutlined, SearchOutlined, ReloadOutlined, EditOutlined, DeleteOutlined,
@@ -15,6 +16,7 @@ import {
 import { formatDateTime } from '../../utils/helpers';
 
 const { Option } = Select;
+const { Text, Divider } = Typography;
 
 function ReminderRules() {
   const { message, modal } = App.useApp();
@@ -445,7 +447,5 @@ function ReminderRules() {
     </div>
   );
 }
-
-const { Text, Divider } = require('antd');
 
 export default ReminderRules;

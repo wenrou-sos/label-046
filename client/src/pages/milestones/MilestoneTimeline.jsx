@@ -1,5 +1,5 @@
 import React from 'react';
-import { Timeline, Tag, Button, Dropdown, Space, Popconfirm, Tooltip, Text, Avatar, Card, Empty } from 'antd';
+import { Timeline, Tag, Button, Dropdown, Space, Popconfirm, Tooltip, Avatar, Card, Empty, Typography } from 'antd';
 import {
   ClockCircleOutlined, CheckCircleTwoTone, ExclamationCircleTwoTone,
   PlayCircleOutlined, CloseCircleOutlined, TeamOutlined, CalendarOutlined
@@ -7,6 +7,8 @@ import {
 import { MILESTONE_STATUS_OPTIONS, getOptionLabel, getOptionColor } from '../../utils/constants';
 import { formatDate, daysUntil } from '../../utils/helpers';
 import dayjs from 'dayjs';
+
+const { Text } = Typography;
 
 function MilestoneTimeline({ milestones = [], onStatusChange }) {
   if (milestones.length === 0) {
@@ -61,13 +63,13 @@ function MilestoneTimeline({ milestones = [], onStatusChange }) {
     return actions;
   };
 
-  const renderDayBadge = (deadline, status) => {
+  const renderDayBadge = (deadline, milestone) => {
     if (!deadline) return null;
     const days = daysUntil(deadline);
     if (days === null) return null;
 
-    if (status === 'completed') {
-      return <Tag color="success" icon={<CalendarOutlined />}>已完成于 {formatDate(status.actual_date || deadline)}</Tag>;
+    if (milestone.status === 'completed') {
+      return <Tag color="success" icon={<CalendarOutlined />}>已完成于 {formatDate(milestone.actual_date || deadline)}</Tag>;
     }
     if (days < 0) return <Tag color="red">已超期 {Math.abs(days)} 天</Tag>;
     if (days === 0) return <Tag color="orange">今天截止</Tag>;
@@ -145,12 +147,14 @@ function MilestoneTimeline({ milestones = [], onStatusChange }) {
 
             {onStatusChange && actions.length > 0 && (
               <Dropdown
-                menu={{ items: actions.map(a => ({ ...a, onClick: undefined })) }}
-                trigger={['click']}
-                onMenuClick={({ key }) => {
-                  const action = actions.find(a => a.key === key);
-                  action?.onClick?.();
+                menu={{
+                  items: actions.map(a => ({ key: a.key, label: a.label })),
+                  onClick: ({ key }) => {
+                    const action = actions.find(a => a.key === key);
+                    action?.onClick?.();
+                  }
                 }}
+                trigger={['click']}
               >
                 <Button size="small" type="primary" ghost>
                   更新状态

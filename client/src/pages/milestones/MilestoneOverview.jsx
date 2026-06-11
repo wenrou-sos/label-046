@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Table, Button, Space, Input, Select, DatePicker, Tag, App,
-  Row, Col, Tooltip, Empty, Progress, Statistic, Spin
+  Row, Col, Tooltip, Empty, Progress, Statistic, Spin, Typography
 } from 'antd';
 import {
   PlusOutlined, SearchOutlined, ReloadOutlined, ClockCircleOutlined,
@@ -17,6 +17,7 @@ import {
 import { formatDate, formatDateTime, daysUntil } from '../../utils/helpers';
 
 const { RangePicker } = DatePicker;
+const { Text } = Typography;
 
 function MilestoneOverview() {
   const navigate = useNavigate();
@@ -193,9 +194,8 @@ function MilestoneOverview() {
           </Button>
           {record.status !== 'completed' && (
             <Button
-              type="link"
-              size="small"
               type="primary"
+              size="small"
               onClick={() => handleStatusChange(record.id, 'completed')}
             >
               完成
@@ -349,7 +349,7 @@ function MilestoneOverview() {
       </Row>
 
       <Card size="small" style={{ marginBottom: 16 }}>
-        <Row gutter={[16, 16} align="middle">
+        <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={12} md={8}>
             <Select
               placeholder="节点状态"
@@ -409,7 +409,5 @@ function MilestoneOverview() {
     </div>
   );
 }
-
-const { Text } = require('antd');
 
 export default MilestoneOverview;

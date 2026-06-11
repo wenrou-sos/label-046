@@ -1,11 +1,12 @@
+const { Op } = require('sequelize');
 const { MilestoneTemplate } = require('../models');
 
 async function generateMilestonesFromTemplate(caseId, caseType, filingDate, userId) {
   let templates = await MilestoneTemplate.findAll({
     where: {
-      [require('sequelize').Op.or: [
+      [Op.or]: [
         { case_type: caseType },
-        { case_type: null }
+        { case_type: { [Op.is]: null } }
       ]
     },
     order: [['sort_order', 'ASC']]
@@ -13,7 +14,7 @@ async function generateMilestonesFromTemplate(caseId, caseType, filingDate, user
 
   if (templates.length === 0) {
     templates = await MilestoneTemplate.findAll({
-      where: { case_type: null },
+      where: { case_type: { [Op.is]: null } },
       order: [['sort_order', 'ASC']]
     });
   }
