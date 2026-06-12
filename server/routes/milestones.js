@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
   try {
     const {
       page = 1, pageSize = 10, case_id, status, assignee_id,
-      start_date, end_date, upcoming, overdue
+      start_date, end_date, upcoming, overdue, keyword
     } = req.query;
 
     const where = {};
@@ -33,15 +33,37 @@ router.get('/', async (req, res, next) => {
     }
 
     if (start_date || end_date) {
-      where.created_at = where.created_at || {};
-      if (start_date) where.created_at[Op.gte] = start_date;
-      if (end_date) where.created_at[Op.lte] = `${end_date} 23:59:59`;
+      where.deadline_date = where.deadline_date || {};
+      if (start_date) where.deadline_date[Op.gte] = start_date;
+      if (end_date) where.deadline_date[Op.lte] = end_date;
+    }
+
+    let caseWhere = null;
+    if (keyword) {
+      const kw = `%${keyword}%`;
+      caseWhere = {
+        [Op.or]: [
+          { case_name: { [Op.like]: kw } },
+          { case_number: { [Op.like]: kw } }
+        ]
+      };
+    }
+
+    const milestoneWhere = keyword ? {
+      [Op.or]: [
+        { name: { [Op.like]: `%${keyword}%` } }
+      ]
+    } : null;
+
+    const finalWhere = { ...where };
+    if (milestoneWhere) {
+      Object.assign(finalWhere, milestoneWhere);
     }
 
     const result = await Milestone.findAndCountAll({
-      where,
+      where: finalWhere,
       include: [
-        { model: Case, as: 'case_info', attributes: ['id', 'case_number', 'case_name'] },
+        { model: Case, as: 'case_info', attributes: ['id', 'case_number', 'case_name'], where: caseWhere, required: keyword ? true : false },
         { model: User, as: 'assignee', attributes: ['id', 'real_name'] }
       ],
       order: [
@@ -53,6 +75,38 @@ router.get('/', async (req, res, next) => {
     });
 
     paginatedResponse(res, result, page, pageSize);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/calendar', async (req, res, next) => {
+  try {
+    const { start_date, end_date, status, assignee_id } = req.query;
+
+    const where = {};
+    if (status) where.status = status;
+    if (assignee_id) where.assignee_id = assignee_id;
+
+    if (start_date || end_date) {
+      where.deadline_date = {};
+      if (start_date) where.deadline_date[Op.gte] = start_date;
+      if (end_date) where.deadline_date[Op.lte] = end_date;
+    }
+
+    const milestones = await Milestone.findAll({
+      where,
+      include: [
+        { model: Case, as: 'case_info', attributes: ['id', 'case_number', 'case_name'] },
+        { model: User, as: 'assignee', attributes: ['id', 'real_name'] }
+      ],
+      order: [
+        ['deadline_date', 'ASC'],
+        ['created_at', 'ASC']
+      ]
+    });
+
+    successResponse(res, milestones);
   } catch (error) {
     next(error);
   }
@@ -146,6 +200,22 @@ router.patch('/:id/status', async (req, res, next) => {
 
     await milestone.save();
     successResponse(res, milestone, '节点状态更新成功');
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/:id/date', async (req, res, next) => {
+  try {
+    const { deadline_date, planned_date } = req.body;
+    const milestone = await Milestone.findByPk(req.params.id);
+    if (!milestone) throw new AppError('节点不存在', 404);
+
+    if (deadline_date) milestone.deadline_date = deadline_date;
+    if (planned_date) milestone.planned_date = planned_date;
+
+    await milestone.save();
+    successResponse(res, milestone, '节点日期更新成功');
   } catch (error) {
     next(error);
   }

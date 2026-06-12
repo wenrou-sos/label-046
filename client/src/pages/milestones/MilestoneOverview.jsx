@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, Table, Button, Space, Input, Select, DatePicker, Tag, App,
-  Row, Col, Tooltip, Empty, Progress, Statistic, Spin, Typography
+  Row, Col, Tooltip, Empty, Progress, Statistic, Spin, Typography, Segmented
 } from 'antd';
 import {
   PlusOutlined, SearchOutlined, ReloadOutlined, ClockCircleOutlined,
   ExclamationCircleOutlined, CheckCircleOutlined, CalendarOutlined,
-  FileTextOutlined
+  FileTextOutlined, UnorderedListOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -15,6 +15,7 @@ import {
   CASE_STATUS_OPTIONS, MILESTONE_STATUS_OPTIONS, getOptionLabel, getOptionColor
 } from '../../utils/constants';
 import { formatDate, formatDateTime, daysUntil } from '../../utils/helpers';
+import MilestoneCalendar from '../../components/MilestoneCalendar';
 
 const { RangePicker } = DatePicker;
 const { Text } = Typography;
@@ -31,6 +32,7 @@ function MilestoneOverview() {
   const [stats, setStats] = useState({ pending: 0, inProgress: 0, completed: 0, delayed: 0 });
   const [upcoming, setUpcoming] = useState([]);
   const [overdue, setOverdue] = useState([]);
+  const [viewMode, setViewMode] = useState('table'); // 'table' | 'calendar'
 
   useEffect(() => {
     fetchStats();
@@ -80,6 +82,11 @@ function MilestoneOverview() {
       fetchData();
       fetchStats();
     } catch (e) {}
+  };
+
+  const handleRefresh = () => {
+    fetchData();
+    fetchStats();
   };
 
   const columns = [
@@ -208,9 +215,21 @@ function MilestoneOverview() {
 
   return (
     <div className="page-container">
-      <div className="page-header">
-        <div className="page-title">关键节点追踪</div>
-        <div className="page-subtitle">查看和管理所有案件的关键节点进度与超期情况</div>
+      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <div className="page-title">关键节点追踪</div>
+          <div className="page-subtitle">查看和管理所有案件的关键节点进度与超期情况</div>
+        </div>
+        <Space>
+          <Segmented
+            value={viewMode}
+            onChange={setViewMode}
+            options={[
+              { label: '表格视图', value: 'table', icon: <UnorderedListOutlined /> },
+              { label: '日历视图', value: 'calendar', icon: <CalendarOutlined /> }
+            ]}
+          />
+        </Space>
       </div>
 
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
@@ -381,7 +400,7 @@ function MilestoneOverview() {
                 onChange={e => { setSearchText(e.target.value); setFilters(f => ({ ...f, keyword: e.target.value })) }}
                 style={{ width: 180 }}
               />
-              <Button icon={<ReloadOutlined />} onClick={() => { setFilters({}); setSearchText(''); fetchData(); fetchStats(); }}>
+              <Button icon={<ReloadOutlined />} onClick={() => { setFilters({}); setSearchText(''); handleRefresh(); }}>
                 重置
               </Button>
             </Space>
@@ -389,23 +408,33 @@ function MilestoneOverview() {
         </Row>
       </Card>
 
-      <Card className="card-shadow">
-        <Table
-          loading={loading}
-          columns={columns}
-          dataSource={data}
-          rowKey="id"
-          scroll={{ x: 1400 }}
-          pagination={{
-            ...pagination,
-            total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: t => `共 ${t} 条节点`,
-            onChange: (current, pageSize) => setPagination({ current, pageSize })
+      {viewMode === 'table' ? (
+        <Card className="card-shadow">
+          <Table
+            loading={loading}
+            columns={columns}
+            dataSource={data}
+            rowKey="id"
+            scroll={{ x: 1400 }}
+            pagination={{
+              ...pagination,
+              total,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: t => `共 ${t} 条节点`,
+              onChange: (current, pageSize) => setPagination({ current, pageSize })
+            }}
+          />
+        </Card>
+      ) : (
+        <MilestoneCalendar
+          filters={{
+            status: filters.status,
+            assignee_id: filters.assignee_id
           }}
+          onRefresh={handleRefresh}
         />
-      </Card>
+      )}
     </div>
   );
 }

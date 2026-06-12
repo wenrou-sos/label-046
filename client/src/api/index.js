@@ -68,6 +68,7 @@ export const categoryAPI = {
 
 export const milestoneAPI = {
   list: (params) => apiGet('/api/milestones', params),
+  calendar: (params) => apiGet('/api/milestones/calendar', params),
   timeline: (caseId) => apiGet(`/api/milestones/timeline/${caseId}`),
   get: (id) => apiGet(`/api/milestones/${id}`),
   create: (data) => apiPost('/api/milestones', data),
@@ -76,6 +77,8 @@ export const milestoneAPI = {
   update: (id, data) => apiPut(`/api/milestones/${id}`, data),
   updateStatus: (id, status, completed_note) =>
     apiPatch(`/api/milestones/${id}/status`, { status, completed_note }),
+  updateDate: (id, deadline_date, planned_date) =>
+    apiPatch(`/api/milestones/${id}/date`, { deadline_date, planned_date }),
   delete: (id) => apiDelete(`/api/milestones/${id}`)
 };
 
