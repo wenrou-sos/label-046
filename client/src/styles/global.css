@@ -188,3 +188,112 @@ a {
   font-size: 24px;
   margin-right: 10px;
 }
+
+.global-search-wrapper {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.global-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  min-width: 420px;
+  max-height: 480px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  padding: 8px 0;
+}
+
+.search-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.search-group-header {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8c8c8c;
+  background: #fafafa;
+  margin: 4px 0;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  gap: 12px;
+}
+
+.search-result-item:hover,
+.search-result-item.active {
+  background-color: #f0f5ff;
+}
+
+.search-item-icon {
+  flex: 0 0 20px;
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.search-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-item-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-item-subtitle {
+  font-size: 12px;
+  color: #1890ff;
+  margin-bottom: 2px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.search-item-desc {
+  font-size: 12px;
+  color: #8c8c8c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-footer-hint {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #bfbfbf;
+  text-align: right;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
+}
+
+.search-footer-hint kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  margin: 0 2px;
+}

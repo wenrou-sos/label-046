@@ -18,6 +18,7 @@ import {
 } from '@ant-design/icons';
 import { useAuthStore, useAppStore } from '../store';
 import { notificationAPI } from '../api';
+import GlobalSearch from '../components/GlobalSearch';
 
 const { Header, Sider, Content } = Layout;
 
@@ -136,12 +137,18 @@ function MainLayout() {
             boxShadow: '0 1px 4px rgba(0,21,41,.08)'
           }}
         >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={toggleCollapsed}
-            style={{ fontSize: '16px', width: 64, height: 64 }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={toggleCollapsed}
+              style={{ fontSize: '16px', width: 64, height: 64 }}
+            />
+          </div>
+
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '0 24px' }}>
+            <GlobalSearch />
+          </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <Tooltip title="消息通知">

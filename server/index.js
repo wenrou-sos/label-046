@@ -42,6 +42,7 @@ app.use('/api/milestone-templates', authMiddleware, require('./routes/milestoneT
 app.use('/api/notifications', authMiddleware, require('./routes/notifications'));
 app.use('/api/reminder-rules', authMiddleware, require('./routes/reminderRules'));
 app.use('/api/statistics', authMiddleware, require('./routes/statistics'));
+app.use('/api/search', authMiddleware, require('./routes/search'));
 
 app.use(errorHandler);
 

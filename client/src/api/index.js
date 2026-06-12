@@ -112,3 +112,7 @@ export const statisticsAPI = {
   casesTrend: (days) => apiGet('/api/statistics/cases-trend', { days }),
   feeStats: () => apiGet('/api/statistics/fee-stats')
 };
+
+export const searchAPI = {
+  global: (keyword, limit) => apiGet('/api/search', { keyword, limit })
+};

@@ -12,7 +12,7 @@ import {
   CheckCircleTwoTone, ExclamationCircleTwoTone, FileOutlined,
   FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined,
   FileZipOutlined, FileTextOutlined, UserOutlined, UploadOutlined,
-  UnlinkOutlined, LinkOutlined
+  CloseOutlined, LinkOutlined
 } from '@ant-design/icons';
 import ReactECharts from 'echarts-for-react';
 import {
@@ -338,7 +338,7 @@ function CaseDetail() {
                     }
                     actions={[
                       <Popconfirm title="解除关联？" okType="danger" onConfirm={() => handleUnlinkParty(cp.party_id, cp.role)}>
-                        <span><UnlinkOutlined /> 解除</span>
+                        <span><CloseOutlined /> 解除</span>
                       </Popconfirm>
                     ]}
                   >
