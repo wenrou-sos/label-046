@@ -91,7 +91,7 @@ router.get('/', async (req, res, next) => {
       id: u.id,
       title: u.real_name,
       subtitle: u.role === 'admin' ? '管理员' : u.role === 'lawyer' ? '律师' : '助理',
-      description: `账号：${u.username}`,
+      description: '',
       extra: {
         role: u.role,
         username: u.username

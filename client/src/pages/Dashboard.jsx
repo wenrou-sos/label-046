@@ -180,46 +180,55 @@ function Dashboard() {
 
         <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
           <Col xs={12} md={6}>
-            <Card hoverable className="card-shadow" onClick={() => navigate('/cases')}>
+            <Card hoverable className="card-shadow stat-card-fixed" onClick={() => navigate('/cases')}>
               <Statistic
                 title="案件总数"
                 value={data.summary?.totalCases || 0}
                 prefix={<FileTextOutlined />}
                 valueStyle={{ color: '#1890ff' }}
               />
-              <div style={{ marginTop: 8, fontSize: 12, color: '#52c41a' }}>
+              <div className="stat-card-extra">
                 本周新增：{data.summary?.thisWeekNew || 0}
               </div>
             </Card>
           </Col>
           <Col xs={12} md={6}>
-            <Card hoverable className="card-shadow" onClick={() => navigate('/parties')}>
+            <Card hoverable className="card-shadow stat-card-fixed" onClick={() => navigate('/parties')}>
               <Statistic
                 title="当事人总数"
                 value={data.summary?.totalParties || 0}
                 prefix={<TeamOutlined />}
                 valueStyle={{ color: '#722ed1' }}
               />
+              <div className="stat-card-extra">
+                &nbsp;
+              </div>
             </Card>
           </Col>
           <Col xs={12} md={6}>
-            <Card hoverable className="card-shadow" onClick={() => navigate('/documents')}>
+            <Card hoverable className="card-shadow stat-card-fixed" onClick={() => navigate('/documents')}>
               <Statistic
                 title="卷宗文件数"
                 value={data.summary?.totalDocuments || 0}
                 prefix={<FolderOpenOutlined />}
                 valueStyle={{ color: '#13c2c2' }}
               />
+              <div className="stat-card-extra">
+                &nbsp;
+              </div>
             </Card>
           </Col>
           <Col xs={12} md={6}>
-            <Card hoverable className="card-shadow" onClick={() => navigate('/notifications')}>
+            <Card hoverable className="card-shadow stat-card-fixed" onClick={() => navigate('/notifications')}>
               <Statistic
                 title="未读消息"
                 value={data.summary?.unreadCount || 0}
                 prefix={<BellOutlined />}
                 valueStyle={{ color: '#fa8c16' }}
               />
+              <div className="stat-card-extra">
+                &nbsp;
+              </div>
             </Card>
           </Col>
         </Row>
